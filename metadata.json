@@ -1,0 +1,8 @@
+{
+  "name": "Penales de Admisión",
+  "description": "Juego de penales para practicar preguntas de admisión.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
