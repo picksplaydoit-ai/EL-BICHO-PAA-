@@ -21,6 +21,12 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
   const [gameState, setGameState] = useState<'thinking' | 'kicking' | 'result'>('thinking');
   const [result, setResult] = useState<'goal' | 'miss' | null>(null);
   const [lastSelected, setLastSelected] = useState<number | null>(null);
+
+  const playSiuuu = () => {
+    const audio = new Audio('https://www.myinstants.com/media/sounds/cristiano-ronaldo-siuuu-victory-sound-effect-original.mp3');
+    audio.volume = 0.5;
+    audio.play().catch(err => console.log('Audio play failed:', err));
+  };
   const [goalieState, setGoalieState] = useState<'idle' | 'jump-left' | 'jump-right' | 'failed' | 'saved'>('idle');
   const [bichoAction, setBichoAction] = useState<'idle' | 'kick' | 'celebrate' | 'sad'>('idle');
 
@@ -49,6 +55,7 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
       if (isCorrect) {
         setResult('goal');
         setScore(prev => prev + 50);
+        playSiuuu();
         setGoalieState(Math.random() > 0.5 ? 'jump-left' : 'jump-right');
         setBichoAction('celebrate');
       } else {
