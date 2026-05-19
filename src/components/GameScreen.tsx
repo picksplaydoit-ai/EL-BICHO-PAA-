@@ -99,22 +99,22 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
 
   return (
     <div className="relative min-h-screen grass-field flex flex-col overflow-hidden">
-      {/* Scoreboard - Centralized to avoid blocking corners */}
-      <div className="absolute top-4 left-0 right-0 z-20 px-4 flex justify-center items-center gap-4 max-w-4xl mx-auto w-full">
-        <div className="bg-black/80 backdrop-blur-md p-3 rounded-2xl border border-white/20 flex flex-col items-center min-w-[120px]">
-          <div className="text-[10px] uppercase text-yellow-400 font-bold tracking-wider">Puntos</div>
-          <div className="text-2xl font-black text-yellow-500 leading-none">{score} / 800</div>
+      {/* Scoreboard - Optimized for Mobile */}
+      <div className="absolute top-2 left-0 right-0 z-30 px-2 flex justify-center items-center gap-2 max-w-4xl mx-auto w-full">
+        <div className="bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 flex flex-col items-center min-w-[100px] md:min-w-[140px]">
+          <div className="text-[9px] md:text-[10px] uppercase text-yellow-400 font-bold tracking-wider">Puntos</div>
+          <div className="text-lg md:text-2xl font-black text-yellow-500 leading-none">{score} / 800</div>
         </div>
 
-        <div className="bg-black/80 backdrop-blur-md p-3 rounded-2xl border border-white/20 flex flex-col items-center min-w-[120px]">
-          <div className="text-[10px] uppercase text-gray-400 font-bold mb-1 tracking-wider">Vidas</div>
-          <div className="flex gap-1.5 px-2">
+        <div className="bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 flex flex-col items-center min-w-[100px] md:min-w-[140px]">
+          <div className="text-[9px] md:text-[10px] uppercase text-gray-400 font-bold mb-0.5 tracking-wider">Vidas</div>
+          <div className="flex gap-1 md:gap-1.5 px-1">
             {[...Array(3)].map((_, i) => (
               <motion.div 
                 key={i}
                 animate={i < lives ? { opacity: 1, scale: 1 } : { opacity: 0.3, scale: 0.8 }}
               >
-                <div className={`w-5 h-5 rounded-full border-2 ${i < lives ? 'bg-white border-gray-300 shadow-[0_0_10px_white]' : 'bg-transparent border-gray-600'}`} />
+                <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full border-2 ${i < lives ? 'bg-white border-gray-300 shadow-[0_0_8px_white]' : 'bg-transparent border-gray-600'}`} />
               </motion.div>
             ))}
           </div>
@@ -122,15 +122,17 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
       </div>
 
       {/* Stadium & Pitch Area */}
-      <div className="flex-1 flex flex-col items-center justify-center pt-24 pb-48 relative">
-        {/* Goal Post */}
-        <div className="w-full max-w-2xl h-64 border-8 border-b-0 border-white relative rounded-t-lg shadow-[0_-10px_20px_rgba(255,255,255,0.2)]">
+      <div className="flex-1 flex flex-col items-center justify-center pt-16 md:pt-24 pb-40 md:pb-48 relative">
+        {/* Goal Post - Scaled for Mobile */}
+        <div className="w-full max-w-[90%] md:max-w-2xl h-48 md:h-64 border-4 md:border-8 border-b-0 border-white relative rounded-t-lg shadow-[0_-10px_20px_rgba(255,255,255,0.2)]">
           {/* Net structure simplified */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff1a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff1a_1px,transparent_1px)] bg-[size:20px_20px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff1a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff1a_1px,transparent_1px)] bg-[size:15px_15px] md:bg-[size:20px_20px]" />
           
           {/* Goalie */}
-          <div className="absolute inset-0 flex items-end justify-center pb-4">
-            <Portero state={goalieState} />
+          <div className="absolute inset-0 flex items-end justify-center pb-2 md:pb-4">
+            <div className="scale-75 md:scale-100 origin-bottom">
+              <Portero state={goalieState} />
+            </div>
           </div>
 
           {/* Correct Answer Hint (only shown if failed) */}
@@ -139,9 +141,9 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
                <motion.div 
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-[80%]"
                >
-                 <div className="bg-red-600 text-white p-4 rounded-xl font-bold shadow-2xl border-2 border-white">
+                 <div className="bg-red-600 text-white p-3 md:p-4 rounded-xl font-bold shadow-2xl border-2 border-white text-center text-sm md:text-base">
                    ¡FALLASTE!<br />
                    La correcta era: {currentQuestion.options[currentQuestion.correctAnswer]}
                  </div>
@@ -150,25 +152,27 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
           </AnimatePresence>
         </div>
 
-        {/* Character and Ball */}
-        <div className="absolute bottom-40 flex flex-col items-center">
-            <BichoCR7 action={bichoAction} />
+        {/* Character and Ball - Adjusted and Scaled for Mobile */}
+        <div className="absolute bottom-32 md:bottom-40 flex flex-col items-center z-20">
+            <div className="scale-[0.65] md:scale-100 origin-bottom">
+              <BichoCR7 action={bichoAction} />
+            </div>
             
             {/* The Ball */}
             <motion.div 
-              className="w-10 h-10 bg-white rounded-full border-2 border-gray-300 relative mt-4 shadow-xl"
+              className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full border-2 border-gray-300 relative mt-0 md:mt-4 shadow-xl"
               animate={
                 gameState === 'kicking' ? { 
-                  y: -250, 
-                  x: result === 'goal' ? (Math.random() > 0.5 ? 100 : -100) : 0,
+                  y: -200, 
+                  x: result === 'goal' ? (Math.random() > 0.5 ? 80 : -80) : 0,
                   scale: 0.4,
                   opacity: result === 'miss' ? 0.8 : 1
                 } : { y: 0, x: 0, scale: 1 }
               }
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
-              <div className="absolute inset-0 border-[3px] border-black/10 rounded-full" />
-              <div className="absolute top-1 left-2 w-3 h-3 bg-black/20 rounded-full" />
+              <div className="absolute inset-0 border-[2px] md:border-[3px] border-black/10 rounded-full" />
+              <div className="absolute top-1 left-2 w-2 h-2 md:w-3 md:h-3 bg-black/20 rounded-full" />
             </motion.div>
         </div>
 
@@ -180,18 +184,18 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="absolute bottom-2 left-4 right-4 z-40 bg-white/10 backdrop-blur-xl border border-white/20 p-6 rounded-3xl shadow-2xl"
+              className="absolute bottom-4 left-4 right-4 z-40 bg-white/10 backdrop-blur-xl border border-white/20 p-4 md:p-6 rounded-3xl shadow-2xl"
             >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-20 h-16 rounded-full border-4 border-yellow-500 flex items-center justify-center text-2xl font-black shrink-0">
+              <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-4">
+                <div className="w-14 h-12 md:w-20 md:h-16 rounded-full border-4 border-yellow-500 flex items-center justify-center text-lg md:text-2xl font-black shrink-0">
                   {timeLeft > 60 ? `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}` : timeLeft}
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold leading-tight">
+                <h3 className="text-base md:text-2xl font-bold leading-tight">
                   {currentQuestion.text}
                 </h3>
               </div>
               
-              <div className="text-xs uppercase text-gray-400 font-bold tracking-widest text-center mt-2">
+              <div className="text-[10px] md:text-xs uppercase text-gray-300 font-bold tracking-widest text-center">
                 Presiona una esquina para rematar
               </div>
             </motion.div>
@@ -199,8 +203,8 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
         </AnimatePresence>
       </div>
 
-      {/* Answer Corners */}
-      <div className="absolute inset-0 p-4 pointer-events-none grid grid-cols-2 grid-rows-2 h-full z-10">
+      {/* Answer Corners - Optimized spacing */}
+      <div className="absolute inset-0 p-3 md:p-6 pointer-events-none grid grid-cols-2 grid-rows-2 h-full z-10 pt-20 md:pt-28 pb-10 md:pb-16">
         {currentQuestion.options.map((option, idx) => (
           <div key={idx} className={`flex items-start ${idx % 2 !== 0 ? 'justify-end' : ''} ${idx >= 2 ? 'items-end' : ''}`}>
             <motion.button
@@ -208,8 +212,9 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
               onClick={() => handleAnswer(idx)}
               className={`
                 pointer-events-auto
-                w-full max-w-[180px] md:max-w-[250px]
+                w-full max-w-[140px] md:max-w-[250px]
                 corner-btn
+                relative
                 ${gameState !== 'thinking' ? 'opacity-50' : 'opacity-100'}
                 ${lastSelected === idx && result === 'miss' ? 'bg-red-500/40 border-red-500' : ''}
                 ${gameState === 'result' && idx === currentQuestion.correctAnswer ? 'bg-green-500/40 border-green-500' : ''}
@@ -218,10 +223,10 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.1 * idx }}
             >
-              <div className="absolute -top-3 -left-3 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-black font-black text-sm shadow-lg">
+              <div className="absolute -top-2 -left-2 md:-top-3 md:-left-3 w-6 h-6 md:w-8 md:h-8 bg-yellow-500 rounded-full flex items-center justify-center text-black font-black text-xs md:text-sm shadow-lg">
                 {cornerLabels[idx]}
               </div>
-              <span className="text-center leading-tight line-clamp-3 text-sm md:text-base">
+              <span className="text-center leading-tight line-clamp-3 text-xs md:text-base">
                 {option}
               </span>
             </motion.button>
