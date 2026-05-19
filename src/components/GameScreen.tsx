@@ -61,17 +61,22 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
 
     const isCorrect = optionIndex === currentQuestion.correctAnswer;
     
+    // Update numerical stats immediately for better responsiveness
+    if (isCorrect) {
+      setScore(prev => prev + 50);
+    } else {
+      setLives(prev => prev - 1);
+    }
+
     // Animate ball and goalie
     setTimeout(() => {
       if (isCorrect) {
         setResult('goal');
-        setScore(prev => prev + 50);
         playSiuuu();
         setGoalieState(Math.random() > 0.5 ? 'jump-left' : 'jump-right');
         setBichoAction('celebrate');
       } else {
         setResult('miss');
-        setLives(prev => prev - 1);
         setGoalieState('saved');
         setBichoAction('sad');
       }
