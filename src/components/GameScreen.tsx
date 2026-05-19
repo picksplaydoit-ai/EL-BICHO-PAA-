@@ -27,10 +27,21 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
     audio.volume = 0.5;
     audio.play().catch(err => console.log('Audio play failed:', err));
   };
+
+  const playWhistle = () => {
+    const audio = new Audio('https://www.myinstants.com/media/sounds/referee-whistle.mp3');
+    audio.volume = 0.4;
+    audio.play().catch(err => console.log('Audio play failed:', err));
+  };
+
   const [goalieState, setGoalieState] = useState<'idle' | 'jump-left' | 'jump-right' | 'failed' | 'saved'>('idle');
   const [bichoAction, setBichoAction] = useState<'idle' | 'kick' | 'celebrate' | 'sad'>('idle');
 
   const currentQuestion = questions[currentIndex];
+
+  useEffect(() => {
+    playWhistle();
+  }, []);
 
   useEffect(() => {
     if (gameState === 'thinking' && timeLeft > 0) {
@@ -85,6 +96,7 @@ export default function GameScreen({ questions, onGameOver, onGameWin }: GameScr
       return;
     }
 
+    playWhistle();
     const nextQ = questions[currentIndex + 1];
     setCurrentIndex(prev => prev + 1);
     setTimeLeft(getInitialTime());
